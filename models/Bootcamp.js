@@ -4,9 +4,9 @@ const mongoose = require('mongoose');
 const BootcampSchema = mongoose.Schema({
     nom: {
         type: String,
-        required: [true, 'Merci de renseigner le nom'],
+        required: [true, 'Merci de renseigner le champ nom'],
         unique: true, 
-        trim: true,
+        trim: true, //supprimes les epsaces des 2 cotes de la chaine
         maxlength: [50,'Le nombre de charactère ne peux exeder 50'],
     },
     slug: String,
@@ -29,7 +29,7 @@ const BootcampSchema = mongoose.Schema({
     },
     adresse: {
         type: String,
-        required: [true , "merci de renseigner une adresse valide"]
+        required: [true , "Merci de renseigner le champ adresse"]
     },
     localisation: {
         //GeoJSON
