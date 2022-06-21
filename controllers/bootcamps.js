@@ -76,13 +76,13 @@ exports.deleteBootcamps = asyncHandler(async (req, res, next) => {
 
 //@desc     Recuperer les bootcamps avec la distance 
 //@route    GET /api/v1/bootcamps/radius/:zipcode/:distance
-//@access   Public
+//@access   Private
 exports.getBootcampsInRadius = asyncHandler(async (req, res, next) => {
   const { zipcode, distance } = req.params;
 
   //Recuperer la longitude et la latitude via geocoder
   const loc = await geocoder.geocode(zipcode);
-  console.log(loc[0]);
+  // console.log(loc[0]);
   const lat = loc[0].latitude;
   const long = loc[0].longitude;
  
@@ -91,16 +91,12 @@ exports.getBootcampsInRadius = asyncHandler(async (req, res, next) => {
   // radius de la terre en km = 6,3778 
   const radius = distance / 6378;
 
-  console.log(radius);
-  console.log(loc[0]);
-
-
   const bootcamps = await Bootcamp.find({
-    localisation: 
-       { $geoWithin: { $centerSphere: [[long, lat], radius] } }
+     location :
+        { $geoWithin: { $centerSphere: [[long, lat], radius] } }
 });
-  // console.log(localisation.$geoWithin.$centerSphere);
-  console.info(bootcamps);
+ 
+  // console.info(bootcamps);
   
   res.status(200).json({
     success: true,
@@ -109,10 +105,5 @@ exports.getBootcampsInRadius = asyncHandler(async (req, res, next) => {
   })
 
 });
-
-
-
-
-
 
 
