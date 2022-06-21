@@ -33,13 +33,13 @@ const BootcampSchema = new mongoose.Schema(
         type: String,
         required: [true , "Merci de renseigner le champ adresse"]
     },
-    localisation: {
+    location: {
         //GeoJSON
         type: {
             type :String,
             enum: ['Point'],     
         },
-      coordonnees: {
+      coordinates: {
         type: [Number],
         index: '2dsphere'
       },
@@ -105,9 +105,9 @@ BootcampSchema.pre('save', function(next) {
 BootcampSchema.pre('save', async function(next) {
     const loc = await geocoder.geocode(this.adresse);
     console.log(loc);
-    this.localisation = {
+    this.location = {
         type: 'Point',
-        coordonnees: [loc[0].longitude, loc[0].latitude],
+        coordinates: [loc[0].longitude, loc[0].latitude],
         adresseComplete: this.adresse,
         rue: loc[0].streetName,
         ville: loc[0].city,
