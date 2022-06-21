@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
+const slugify = require('slugify');
+const geocoder = require('../utils/geocoder');
 
-
-const BootcampSchema = mongoose.Schema({
+const BootcampSchema = new mongoose.Schema(
+  {
     nom: {
         type: String,
         required: [true, 'Merci de renseigner le champ nom'],
@@ -35,18 +37,18 @@ const BootcampSchema = mongoose.Schema({
         //GeoJSON
         type: {
             type :String,
-            enum: ['point'],     
+            enum: ['Point'],     
         },
-        coordinates: {
-            type: [Number],
-            index: '2dsphere'
-        },
-        formattedAddress: String,
-        street: String,
-        city: String,
-        state: String,
-        zipcode: String,
-        country: String
+      coordonnees: {
+        type: [Number],
+        index: '2dsphere'
+      },
+        adresseComplete: String,
+        numeroVoie: String,
+        rue: String, 
+        ville: String,
+        codePostal: String,
+        pays: String
     },
     carriere: {
         type: [String],
@@ -88,9 +90,34 @@ const BootcampSchema = mongoose.Schema({
     },
     dateCreation: {
         type: Date,
-        default: Date.now()
+        default: Date.now
     }
-
+   
 });
 
-module.exports = mongoose.model('Bootcamp', BootcampSchema);
+//Creation du bootcamp slug a partir du nom
+BootcampSchema.pre('save', function(next) {
+    this.slug = slugify(this.nom ,{lower: true})
+    next();
+})
+
+//Geocode & creation des champs localisation
+BootcampSchema.pre('save', async function(next) {
+    const loc = await geocoder.geocode(this.adresse);
+    console.log(loc);
+    this.localisation = {
+        type: 'Point',
+        coordonnees: [loc[0].longitude, loc[0].latitude],
+        adresseComplete: this.adresse,
+        rue: loc[0].streetName,
+        ville: loc[0].city,
+        numeroVoie: loc[0].streetNumber,
+        codePostal: loc[0].zipcode,
+        pays: loc[0].country,
+    }
+
+    this.adresse = undefined;
+    next()
+} )
+
+module.exports = mongoose.model('Bootcamp', BootcampSchema);    
