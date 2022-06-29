@@ -18,6 +18,7 @@
 		"aideEmploi": true,
 		"garantieEmploi": false,
 		"fongecif": false
+		
 	},
 	{
 		"_id": "62aa668fe0d44876fdf57576",
@@ -36,6 +37,7 @@
 		"aideEmploi": true,
 		"garantieEmploi": false,
 		"fongecif": true
+		
 	},
 	{
 		"_id": "62aa66c4e0d44876fdf5757a",
@@ -55,6 +57,7 @@
 		"aideEmploi": true,
 		"garantieEmploi": false,
 		"fongecif": true
+		
 	},
 	{
 		"_id": "62aa66efe0d44876fdf5757e",
@@ -73,5 +76,6 @@
 		"aideEmploi": true,
 		"garantieEmploi": false,
 		"fongecif": false
+	
 	}
 ]

@@ -1,20 +1,35 @@
 const express = require('express');
+const {
+    getBootcamps,
+    createBootcamps,
+    getBootcampsById,
+    updateBootcamps,
+    deleteBootcamps,
+    getBootcampsInRadius
+ } = require('../controllers/bootcamps');
+
+
+//inclusion des ressources d'autres routeurs
+const parcoursRouter = require('./parcours');
+
 const router = express.Router();
-const controle =  require('../controllers/bootcamps')
+
+//re-routage
+router.use('/:bootcampId/parcours', parcoursRouter);
 
 router
     .route('/radius/:zipcode/:distance')
-    .get(controle.getBootcampsInRadius)
+    .get(getBootcampsInRadius)
 
 router
     .route('/')
-    .get(controle.getBootcamps)
-    .post(controle.createBootcamps)
+    .get(getBootcamps)
+    .post(createBootcamps)
 
 router
     .route('/:id')
-    .get(controle.getBootcampsById)
-    .put(controle.updateBootcamps)
-    .delete(controle.deleteBootcamps)
+    .get(getBootcampsById)
+    .put(updateBootcamps)
+    .delete(deleteBootcamps)
 
 module.exports = router ;

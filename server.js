@@ -13,6 +13,7 @@ connectDB();
 
 //route fichier
 const bootcamps = require('./routes/bootcamps');
+const parcours = require('./routes/parcours');
 
 
 const app = express();
@@ -30,6 +31,7 @@ if(process.env.NODE_ENV === 'developpement') {
 
 //chargement des routes 
 app.use('/api/v1/bootcamps', bootcamps);
+app.use('/api/v1/parcours', parcours);
 
 //errorHandler
 app.use(errorHandler);
