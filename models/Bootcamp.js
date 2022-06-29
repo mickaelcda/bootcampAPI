@@ -67,7 +67,7 @@ const BootcampSchema = new mongoose.Schema(
         min: [1, 'La note minimum est de 1'],
         max: [10, 'La note maximum est de 10']
     },
-    formationCout: Number,
+    coutMoyen: Number,
     photo: {
         type: String,
         default: "no-picture.jpg"
@@ -93,6 +93,9 @@ const BootcampSchema = new mongoose.Schema(
         default: Date.now
     }
    
+    }, {
+    toJSON: {virtuals: true},
+    toObject: {virtuals: true}
 });
 
 //Creation du bootcamp slug a partir du nom
@@ -102,9 +105,8 @@ BootcampSchema.pre('save', function(next) {
 })
 
 //Geocode & creation des champs localisation
-BootcampSchema.pre('save', async function(next) {
+BootcampSchema.pre('save', async function (next) {
     const loc = await geocoder.geocode(this.adresse);
-    console.log(loc);
     this.location = {
         type: 'Point',
         coordinates: [loc[0].longitude, loc[0].latitude],
@@ -118,6 +120,21 @@ BootcampSchema.pre('save', async function(next) {
 
     this.adresse = undefined;
     next()
-} )
+});
+
+//effacement en cascade des parcours quand le bootcamp est supprimé
+BootcampSchema.pre('remove', async function (next) {
+    console.log(`Parcours supprimé depuis bootcamp ${this.id}`)
+    await this.model('Parcours').deleteMany({ bootcamp: this._id });
+    next();
+});
+
+//reverse populate avec schema 
+BootcampSchema.virtual('parcours', {
+    ref: 'Parcours',
+    localField: '_id',
+    foreignField: 'bootcamp',
+    justOne: false
+})
 
 module.exports = mongoose.model('Bootcamp', BootcampSchema);    

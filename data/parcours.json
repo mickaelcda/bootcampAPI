@@ -1,0 +1,101 @@
+[
+	{
+		"_id": "5d725a4a7b292f5f8ceff789",
+		"titre": "Developpeur Front End ",
+		"description": "Ce cours vous fournira tous les éléments essentiels pour devenir un bon développeur web frontal. Vous apprendrez à maîtriser le HTML, le CSS et le JavaScript frontal, ainsi que des outils comme Git, VSCode et des frameworks front comme Vue.",
+		"nbSemaine": 8,
+		"frais": 8000,
+		"niveaux": "débutant",
+		"financable": true,
+		"bootcamp": "62aa66efe0d44876fdf5757e",
+		"user": "5d7a514b5d2c12c7449be045"
+	},
+	{
+		"_id": "5d725c84c4ded7bcb480eaa0",
+		"titre": "Developpeur Full Stack",
+		"description": "Dans ce cours, vous apprendrez le développement web complet, en découvrant d'abord le front-end avec HTML/CSS/JS/Vue, puis le back-end avec Node.js/Express/MongoDB.",
+		"nbSemaine": 12,
+		"frais": 10000,
+		"niveaux": "intermediaire",
+		"financable": true,
+		"bootcamp": "62aa66c4e0d44876fdf5757a",
+		"user": "5d7a514b5d2c12c7449be045"
+	},
+	{
+		"_id": "5d725cb9c4ded7bcb480eaa1",
+		"titre": "Developpeur Full Stack",
+		"description": "Dans ce cours, vous apprendrez tout sur le front-end avec HTML, CSS et JavaScript. Vous maîtriserez des outils tels que Git et Webpack et apprendrez également à utiliser C# et ASP.NET avec Postgres.",
+		"nbSemaine": 10,
+		"frais": 12000,
+		"niveaux": "intermediaire",
+		"financable": true,
+		"bootcamp": "62aa66c4e0d44876fdf5757a",
+		"user": "62aa668fe0d44876fdf57576"
+	},
+	{
+		"_id": "5d725cd2c4ded7bcb480eaa2",
+		"titre": "UI/UX",
+		"description": "Dans ce cours, vous apprendrez à créer de belles interfaces. Il s'agit d'un mélange de design et de développement pour créer des expériences utilisateur modernes sur le web et le mobile.",
+		"nbSemaine": 12,
+		"frais": 10000,
+		"niveaux": "intermediaire",
+		"financable": true,
+		"bootcamp": "62aa662ce0d44876fdf57572",
+		"user": "5d7a514b5d2c12c7449be046"
+	},
+	{
+		"_id": "5d725ce8c4ded7bcb480eaa3",
+		"titre": "Developpement et Web Design",
+		"description": "Commencez à créer des sites Web et des applications Web avec HTML/CSS/JavaScript/PHP.",
+		"nbSemaine": 10,
+		"frais": 9000,
+		"niveaux": "débutant",
+		"financable": true,
+		"bootcamp": "62aa66efe0d44876fdf5757e",
+		"user": "5c8a1d5b0190b214360dc031"
+	},
+	{
+		"_id": "5d725cfec4ded7bcb480eaa4",
+		"titre": "Programme Data Science",
+		"description": "Dans ce cours, vous apprendrez à utiliser Python pour la science des données, l'apprentissage automatique et les outils de big data.",
+		"nbSemaine": 10,
+		"frais": 12000,
+		"niveaux": "intermediaire",
+		"financable": false,
+		"bootcamp": "62aa662ce0d44876fdf57572",
+		"user": "5c8a1d5b0190b214360dc031"
+	},
+	{
+		"_id": "5d725cfec4ded7bcb480eaa5",
+		"titre": "Developpement Web",
+		"description": "Ce cours vous apprendra à créer des applications web de haute qualité avec des technologies comme React, Node.js, PHP et Laravel.",
+		"nbSemaine": 8,
+		"frais": 8000,
+		"niveaux": "débutant",
+		"financable": false,
+		"bootcamp": "62aa662ce0d44876fdf57572",
+		"user": "5c8a1d5b0190b214360dc032"
+	},
+	{
+		"_id": "5d725cfec4ded7bcb480eaa6",
+		"titre": "Qualité Logicielle",
+		"description": "Ce cours vous apprendra tout ce qu'il faut savoir sur l'assurance qualité",
+		"nbSemaine": 6,
+		"frais": 5000,
+		"niveaux": "intermediaire",
+		"financable": false,
+		"bootcamp": "62aa662ce0d44876fdf57572",
+		"user": "5c8a1d5b0190b214360dc032"
+	},
+	{
+		"_id": "5d725cfec4ded7bcb480eaa7",
+		"titre": "Developpement IOS",
+		"description": "Commencez à créer des applications mobiles pour IOS à l'aide de Swift et d'autres outils.",
+		"nbSemaine": 8,
+		"frais": 6000,
+		"niveaux": "intermediaire",
+		"financable": false,
+		"bootcamp": "62aa66c4e0d44876fdf5757a",
+		"user": "5c8a1d5b0190b214360dc032"
+	}
+]
