@@ -39,7 +39,7 @@ const ParcoursSchema = new mongoose.Schema({
 });
 
 ParcoursSchema.statics.getAverageCost = async function (bootcampId) {
-    console.log('calculer moyenne cost '.blue);
+    // console.log('calculer moyenne cost '.blue);
 
     const obj = await this.aggregate([
         {
