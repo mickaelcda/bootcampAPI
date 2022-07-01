@@ -2,84 +2,14 @@ const Bootcamp = require("../models/Bootcamp");
 const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../midddleware/async");
 const geocoder = require("../utils/geocoder");
+const path = require('path')
 
 //@desc     Recuperer tous les bootcamps
 //@route    GET /api/v1/bootcamps
 //@access   Public
 exports.getBootcamps = asyncHandler(async (req, res, next) => {
-  let query;
 
-  // Copie de req.query
-  const reqQuery = { ...req.query };
-  // Champs a exclure
-  const removeFields = ["select", "sort", "page", "limit"];
-  // Loop over removeFields and delete them from reqQuery
-  removeFields.forEach((param) => delete reqQuery[param]);
-  //creation requete string
-  let queryStr = JSON.stringify(reqQuery);
-  console.log(reqQuery);
-  // creation operateur de comparaison syntaxe : {champs { ex : $gt : valeur}}
-  queryStr = queryStr.replace(
-    /\b(gt|gte|lt|lte|in)\b/g,
-    (match) => `$${match}`
-  );
-  //ressource
-  query = Bootcamp.find(JSON.parse(queryStr)).populate({
-    path: 'parcours',
-    select: 'titre description frais'
-  });
-  console.log(queryStr);
-
-  // Select Fields
-  if (req.query.select) {
-    const fields = req.query.select.split(",").join(" ");
-    query = query.select(fields);
-  }
-
-    // Sort
-    if (req.query.sort) {
-      const sortBy = req.query.sort.split(",").join(" ");
-      query = query.sort(sortBy);
-    } else {
-      query = query.sort("-createdAt");
-    }
-  
-    // Pagination
-    const page = parseInt(req.query.page, 10) || 1;
-  const limit = parseInt(req.query.limit, 10) || 25;
-    const startIndex = (page - 1) * limit;
-    const endIndex = page * limit;
-    const total = await Bootcamp.countDocuments(JSON.parse(queryStr));
-  
-    // Pagination result
-    const pagination = {};
-  
-    if (endIndex < total) {
-      pagination.next = {
-        page: page + 1,
-        limit,
-      };
-    }
-  
-    if (startIndex > 0) {
-      pagination.prev = {
-        page: page - 1,
-        limit,
-      };
-    }
-  
-    query = query.skip(startIndex).limit(limit);
-
-  const bootcamps = await query;
-
-
-
-  res.status(200).json({
-    success: true,
-    count: bootcamps.length,
-    pagination,
-    data: bootcamps,
-  });
+  res.status(200).json(res.advancedResults);
   
 });
 //@desc     Recuperer bootcamps via Id
@@ -173,3 +103,57 @@ exports.getBootcampsInRadius = asyncHandler(async (req, res, next) => {
     data: bootcamps,
   });
 });
+
+//@desc     Upload photo pour les bootcamps
+//@route    PUT /api/v1/bootcamps/:id/photo
+//@access   Private
+exports.bootcampPhotoUpload = asyncHandler(async (req, res, next) => {
+  const bootcamp = await Bootcamp.findById(req.params.id);
+  if (!bootcamp) {
+    return next(
+      new ErrorResponse(
+        `Ressource introuvable, l'id ${req.params.id} n'existe pas`,
+        404
+      )
+    );
+  }
+  if (!req.files) {
+    return next(
+      new ErrorResponse(`Merci de choisir un fichier a uploader`, 400)
+    );
+  }
+
+  const file = req.files.file
+  
+  //verifier que l image est bie nune photo 
+  if (!file.mimetype.startsWith('image')) {
+    return next(
+      new ErrorResponse(`Merci de choisir un fichier de type image`, 400)
+    );
+  }
+  //verifier la taille de l image 
+  if (file.size > process.env.MAX_FILE_UPLOAD) {
+    return next(
+      new ErrorResponse(`Merci de choisir un fichier plus petit que ${process.env.MAX_FILE_UPLOAD}`, 400)
+    );
+  }
+  //Creer un nom personalise pour chaue photo
+  file.name =`photo_${bootcamp._id}${path.parse(file.name).ext}`
+  console.log(file.name);
+
+  file.mv(`${process.env.FILE_UPLOAD_PATH}/${file.name}`, async err => {
+    if (err) {
+      return next(
+        new ErrorResponse(`probleme avec le fichier uploader`, 400)
+      );
+    }
+  })
+
+  await Bootcamp.findByIdAndUpdate(req.params.id, { photo: file.name })
+  
+  res.status(200).json({
+    success: true, 
+    data: file.name
+  })
+});
+
