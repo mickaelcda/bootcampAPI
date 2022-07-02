@@ -10,15 +10,15 @@ const {
 
 const router = express.Router({ mergeParams: true });
 
-const { protect } = require('../midddleware/auth');
+const { protect , authorize} = require('../midddleware/auth');
 
 router.route("/")
     .get(getParcours)
-    .post(protect, createParcours)
+    .post(protect, authorize('publisher', 'admin'), createParcours)
 router.route("/:id")
     .get(getParcoursById)
-    .put(protect, updateParcours)
-    .delete(protect, deleteParcours)
+    .put(protect, authorize('publisher', 'admin') ,updateParcours)
+    .delete(protect, authorize('publisher', 'admin') , deleteParcours)
     
 
 module.exports = router;
