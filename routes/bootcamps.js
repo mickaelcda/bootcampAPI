@@ -19,7 +19,7 @@ const parcoursRouter = require('./parcours');
 
 const router = express.Router();
 
-const { protect } = require('../midddleware/auth');
+const { protect, authorize } = require('../midddleware/auth');
 
 //re-routage
 router.use('/:bootcampId/parcours', parcoursRouter);
@@ -31,16 +31,16 @@ router
 router
     .route('/')
     .get(advancedResults(Bootcamp,'parcours'), getBootcamps)
-    .post(protect, createBootcamps)
+    .post(protect, authorize('publisher', 'admin'), createBootcamps)
 
 router
     .route('/:id')
     .get(getBootcampsById)
-    .put(protect, updateBootcamps)
-    .delete(protect, deleteBootcamps)
+    .put(protect, authorize('publisher', 'admin'), updateBootcamps)
+    .delete(protect, authorize('publisher', 'admin'), deleteBootcamps)
 
 router 
     .route('/:id/photo')
-    .put(protect , bootcampPhotoUpload)
+    .put(protect , authorize('publisher', 'admin'), bootcampPhotoUpload)
 
 module.exports = router ;
